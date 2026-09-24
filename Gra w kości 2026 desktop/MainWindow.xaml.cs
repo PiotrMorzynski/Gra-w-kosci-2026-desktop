@@ -73,7 +73,7 @@ namespace Gra_w_kosci_2026_desktop
                 {
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "obrazy", filename);
                     diceImages[index].Source = new BitmapImage(new Uri(path, UriKind.Absolute));
-                }
+                } 
                 catch { }
             }
             diceImages[index].Opacity = opacity;
