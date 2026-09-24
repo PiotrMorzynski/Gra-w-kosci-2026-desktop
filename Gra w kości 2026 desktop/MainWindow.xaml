@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gra_w_kosci_2026_desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="Green">
+    <!-- ZMIANA: Zielone tło całego okna -->
+
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,7 +28,7 @@
             <Image x:Name="Dice4" Width="80" Height="80" Margin="10" MouseLeftButtonDown="Dice_Click" Tag="4" Cursor="Hand"/>
         </StackPanel>
 
-        <Button Grid.Row="2" Content="RZUT" Background="#ED275021" Foreground="White" 
+        <Button Grid.Row="2" Content="RZUT" Background="Gray" Foreground="Black" 
                 FontSize="20" FontWeight="Bold" Width="150" Height="50" Margin="10" Click="RollButton_Click"/>
 
         <TextBlock Grid.Row="3" x:Name="ResultTextBlock" Text="0" FontSize="40" 
