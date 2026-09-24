@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,11 +17,10 @@ namespace Gra_w_kosci_2026_desktop
         public MainWindow()
         {
             InitializeComponent();
-
             diceImages = new Image[] { Dice0, Dice1, Dice2, Dice3, Dice4 };
-
             ResetGame();
         }
+
         private void ResetGame()
         {
             for (int i = 0; i < 5; i++)
@@ -38,14 +38,11 @@ namespace Gra_w_kosci_2026_desktop
 
             for (int i = 0; i < 5; i++)
             {
-
                 if (!isDiceLocked[i])
                 {
                     diceValues[i] = random.Next(1, 7);
-                    string imageName = $"kosc{diceValues[i]}.png";
-                    UpdateDiceVisual(i, imageName, 1.0);
+                    UpdateDiceVisual(i, $"kosc{diceValues[i]}.png", 1.0);
                 }
-
                 totalScore += diceValues[i];
             }
 
@@ -54,36 +51,30 @@ namespace Gra_w_kosci_2026_desktop
 
         private void Dice_Click(object sender, MouseButtonEventArgs e)
         {
-            Image clickedImage = sender as Image;
-            if (clickedImage == null) return;
+            if (sender is Image clickedImage)
+            {
+                int index = Convert.ToInt32(clickedImage.Tag);
+                if (diceValues[index] == 0) return;
 
-            int index = Convert.ToInt32(clickedImage.Tag);
-
-            if (diceValues[index] == 0) return;
-
-            isDiceLocked[index] = !isDiceLocked[index];
-
-            clickedImage.Opacity = isDiceLocked[index] ? 0.5 : 1.0;
+                isDiceLocked[index] = !isDiceLocked[index];
+                clickedImage.Opacity = isDiceLocked[index] ? 0.5 : 1.0;
+            }
         }
 
         private void UpdateDiceVisual(int index, string filename, double opacity)
         {
             try
             {
-                BitmapImage bitmap = new BitmapImage(new Uri($"pack://application:,,,/obrazy/{filename}", UriKind.RelativeOrAbsolute));
-                diceImages[index].Source = bitmap;
+                diceImages[index].Source = new BitmapImage(new Uri($"pack://application:,,,/obrazy/{filename}"));
             }
             catch
             {
                 try
                 {
-                    BitmapImage bitmap = new BitmapImage(new Uri(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "obrazy", filename), UriKind.Absolute));
-                    diceImages[index].Source = bitmap;
+                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "obrazy", filename);
+                    diceImages[index].Source = new BitmapImage(new Uri(path, UriKind.Absolute));
                 }
-                catch
-                {
-
-                }
+                catch { }
             }
             diceImages[index].Opacity = opacity;
         }
